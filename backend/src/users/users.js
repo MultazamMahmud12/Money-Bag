@@ -1,8 +1,11 @@
 const User = require('./users.model');
+const Wallet = require('../wallet/wallet.model');
 
 const registerUser = async (req, res) => {
   try {
-    const { firebaseUid, name, email } = req.body;
+    const firebaseUid = req.user.uid; 
+    const name = req.user.name; 
+    const email = req.user.email; 
 
     if (!firebaseUid || !name || !email) {
       return res.status(400).json({ 
@@ -20,9 +23,20 @@ const registerUser = async (req, res) => {
     const newUser = new User({ firebaseUid, name, email });
     await newUser.save();
 
+    // Create wallet for the new user with Firebase UID
+    const newWallet = new Wallet({
+      userId: firebaseUid,  // Using Firebase UID
+      currentBalance: 0,
+      referenceBudget: 0,
+      totalIncome: 0,
+      totalExpense: 0
+    });
+    await newWallet.save();
+
     res.status(201).json({ 
       message: 'User registered successfully', 
-      user: newUser 
+      user: newUser,
+      wallet: newWallet
     });
   } catch (error) {
     console.error('Error registering user:', error);

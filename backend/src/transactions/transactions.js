@@ -5,6 +5,8 @@ const Wallet = require('../wallet/wallet.model');
 const createTransaction = async (req, res) => {
   try {
     // Get userId from authenticated user (Firebase token)
+    // const userId = req.user.uid;
+    
     const userId = req.user.uid;
     const { type, category, amount, satisfactionScore, message } = req.body;
 
