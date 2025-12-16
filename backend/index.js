@@ -3,11 +3,32 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 5000 
 const mongoose = require('mongoose'); 
+const cors = require('cors')
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
+//middleware
+app.use(express.json()); 
+app.use(cors(
+  {
+    origin: ['http://localhost:5173'],
+    credentials: true
+  }
+))
+
+
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// })
+
+
+//routes 
+const userRoutes = require('../backend/src/users/user.route')
+const transactionRoutes = require('../backend/src/transactions/transaction.route')
+const walletRoutes = require('../backend/src/wallet/wallet.route')
+
+app.use("/api/users",userRoutes)
+app.use("/api/transactions",transactionRoutes)
+app.use("/api/wallet",walletRoutes)
 
 async function main() {
   await mongoose.connect(process.env.DB_URL);
