@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const { loginUser,signInWithGoogle } = useAuth( )
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here
+    try {
+      await loginUser(email,password); 
+      alert("login successful") ;
+      navigate("/home")
+      
+    } catch (error) {
+      alert("Login failed: " + (error.message || "Please try again"));
+    }
     console.log('Login attempt with:', { email, password });
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+        await signInWithGoogle(); 
+        alert("ok") ;
+        navigate("/home")
+
+    // eslint-disable-next-line no-unused-vars
+    } catch(error){
+      alert("not ok") ;
+
+    }
   };
 
   return (
@@ -52,6 +74,14 @@ const Login = () => {
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium"
           >
             Login
+          </button>
+
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-200 font-medium mt-4"
+          >
+            Sign in with Google
           </button>
         </form>
 

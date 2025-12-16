@@ -1,25 +1,42 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const [message, setMessage] = useState('');
+  const { registerUser } = useAuth()
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (password !== confirmPassword) {
       alert('Passwords do not match!');
       return;
     }
-    // Add your registration logic here
-    console.log('Registration attempt with:', { email, password });
+    
+    try {
+      await registerUser(email, password);
+      alert("Registered successfully!");  
+      setMessage('');
+    } catch (error) {
+      console.error('Registration error:', error);
+      setMessage("Please provide a valid email and password")
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Register</h2>
+        
+        {message && (
+          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            {message}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

@@ -1,13 +1,19 @@
 import { Outlet } from "react-router-dom"
+import { AuthProvide } from "./context/AuthContext"
+import Navbar from "./components/Navbar"
 
 function App() {
  
 
   return (
     <>
-    <nav>Nabar</nav>
+    <AuthProvide>
+     <nav><Navbar/></nav>
     <Outlet/>
     <footer>Footer</footer>
+    </AuthProvide>
+
+   
     </>
   )
 }
