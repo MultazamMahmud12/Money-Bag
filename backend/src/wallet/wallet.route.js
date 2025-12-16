@@ -8,7 +8,7 @@ router.use(verifyFirebaseToken);
 
 // GET /api/wallet - Get wallet info for authenticated user
 router.get('/', getWallet);
-
+//these add monet and spend money is redundant , we use transaction routes instead 
 // POST /api/wallet/add - Add money to wallet
 router.post('/add', addMoney);
 

@@ -41,8 +41,10 @@ const createTransaction = async (req, res) => {
     }
 
     if (type === 'ADD') {
+      
       wallet.currentBalance += amount;
       wallet.totalIncome += amount;
+      if(wallet.currentBalance > wallet.referenceBudget) wallet.referenceBudget=wallet.currentBalance; 
     } else {
       wallet.currentBalance -= amount;
       wallet.totalExpense += amount;
