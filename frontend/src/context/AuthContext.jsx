@@ -48,6 +48,7 @@ export const AuthProvide = ({children}) => {
             if(user) {
                
                 const {email, displayName, photoURL} = user;
+                // eslint-disable-next-line no-unused-vars
                 const userData = {
                     email, username: displayName, photo: photoURL
                 } 

@@ -6,8 +6,9 @@ const createTransaction = async (req, res) => {
   try {
     // Get userId from authenticated user (Firebase token)
     // const userId = req.user.uid;
-    
+    //the things we get from auth we can use firebase toke to extract those values  
     const userId = req.user.uid;
+    //the things extra values needed for mongo , we need to send from the frontend to the backend 
     const { type, category, amount, satisfactionScore, message } = req.body;
 
     // Validate required fields
@@ -16,7 +17,7 @@ const createTransaction = async (req, res) => {
         message: 'type and amount are required' 
       });
     }
-
+    
     // Validate type
     if (!['ADD', 'SPEND'].includes(type)) {
       return res.status(400).json({ 

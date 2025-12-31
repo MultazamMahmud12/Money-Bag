@@ -7,15 +7,12 @@ const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
   try {
-    // Option 1: Using service account key file (recommended for production)
-    // admin.initializeApp({
-    //   credential: admin.credential.cert(require('../path-to-serviceAccountKey.json'))
-    // });
-
-    // Option 2: Using environment variables (for now)
+    // Temporary solution: Initialize without service account for development
+    // This will work for token verification if you provide project ID
     admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
+      projectId: process.env.FIREBASE_PROJECT_ID || 'your-project-id-here',
     });
+    console.log('Firebase Admin initialized successfully');
   } catch (error) {
     console.log('Firebase admin initialization error', error);
   }
